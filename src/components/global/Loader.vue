@@ -1,5 +1,5 @@
 <template>
-  <div class="lds-default">
+  <div class="lds-default" id="spinner">
     <div></div>
     <div></div>
     <div></div>
@@ -22,6 +22,15 @@ export default {
 </script>
 
 <style scoped>
+
+#spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
 .lds-default {
   display: inline-block;
   position: relative;
@@ -32,7 +41,7 @@ export default {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: #cef;
+  background: #17a2b8;
   border-radius: 50%;
   animation: lds-default 1.2s linear infinite;
 }

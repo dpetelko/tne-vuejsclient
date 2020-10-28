@@ -6,7 +6,8 @@
       <br/>
       <a asp-action="Create" asp-controller="LeadDivisions" class="btn btn-secondary">Добавить новую организацию</a>
       <p></p>
-      <table class="table table-stripped table-hover">
+      <Loader v-if="loading"/>
+      <table v-else class="table table-stripped table-hover">
         <tr>
           <td><strong>Наименование</strong></td>
           <td><strong>Индекс</strong></td>
@@ -45,24 +46,26 @@
 </template>
 
 <script>
+import Loader from '@/components/global/Loader.vue'
 export default {
   name: 'LeadDivisionsIndex',
   data() {
     return {
       leadDivisions: [
-        {
-          id: String,
-          name: String,
-          addressId: String,
-          postCode: Number,
-          country: String,
-          region: String,
-          city: String,
-          street: String,
-          building: String,
-          deleted: Boolean
-        }
-      ]
+        // {
+        //   id: String,
+        //   name: String,
+        //   addressId: String,
+        //   postCode: Number,
+        //   country: String,
+        //   region: String,
+        //   city: String,
+        //   street: String,
+        //   building: String,
+        //   deleted: Boolean
+        // }
+      ],
+      loading: true
     }
   },
   mounted() {
@@ -82,8 +85,15 @@ export default {
     })
         .then(response => response.json())
         .then(json => {
-          this.leadDivisions = json
+          setTimeout(() => {
+            this.leadDivisions = json
+            this.loading = false
+          }, 3000)
+
         })
+  },
+  components: {
+    Loader
   }
 
 
