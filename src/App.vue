@@ -9,7 +9,7 @@
 <script>
 import MainLayout from '@/layouts/MainLayout.vue'
 import Home from '@/views/Home.vue'
-import LeadDivisionIndex from '@/views/LeadDivisionsIndex'
+import LeadDivisionIndex from '@/views/LeadDivision/Index'
 export default {
   computed: {
 layout() {

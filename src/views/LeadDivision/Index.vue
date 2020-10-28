@@ -18,7 +18,7 @@
           <td><strong>Строение</strong></td>
           <td></td>
         </tr>
-        <tr v-for="(item, index) in leadDivisions" v-bind:key=index>
+        <tr v-for="item in leadDivisions" v-bind:key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.postCode }}</td>
           <td>{{ item.country }}</td>
@@ -29,8 +29,9 @@
           <td>
             <div class="btn-group" role="group">
 
-              <a asp-action="Details" asp-controller="LeadDivisions" asp-route-id="@item.Id"
-                 class="btn btn-outline-success btn-sm">Подробности</a>
+              <router-link
+                  :to="{name: 'LeadDivisionsDetails', params: {id: item.id}}"
+                 class="btn btn-outline-success btn-sm">Подробности</router-link>
               <a asp-action="Edit" asp-controller="LeadDivisions" asp-route-id="@item.Id"
                  class="btn btn-outline-warning btn-sm">Редактировать</a>
               <a class="btn btn-outline-danger font-weight-bold btn-sm" id="deleteButton"
@@ -51,20 +52,7 @@ export default {
   name: 'LeadDivisionsIndex',
   data() {
     return {
-      leadDivisions: [
-        // {
-        //   id: String,
-        //   name: String,
-        //   addressId: String,
-        //   postCode: Number,
-        //   country: String,
-        //   region: String,
-        //   city: String,
-        //   street: String,
-        //   building: String,
-        //   deleted: Boolean
-        // }
-      ],
+      leadDivisions: [],
       loading: true
     }
   },
@@ -94,9 +82,11 @@ export default {
   },
   components: {
     Loader
+  },
+  beforeDestroy() {
+    this.leadDivisions = null
+    this.loading = null
   }
-
-
 }
 
 

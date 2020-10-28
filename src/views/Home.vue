@@ -9,8 +9,7 @@
             <h3>организации</h3>
             <p class="card-text">Раздел предоставляет инструменты для работы с головными организациями</p>
             <br/>
-            <a href="/lead-divisions/index" class="btn btn-outline-info btn-sm">Перейти к разделу
-              »</a>
+            <router-link to="/lead-divisions/index" class="btn btn-outline-info btn-sm">Перейти к разделу »</router-link>
           </div>
         </div>
       </div>

@@ -15,9 +15,16 @@ const router = new VueRouter({
     },
     {
       path: '/lead-divisions/index',
-      name: 'LeadDivisions',
+      name: 'LeadDivisionsIndex',
       meta: {layout: 'main'},
-      component: () => import('../views/LeadDivisionsIndex.vue')
+      component: () => import('../views/LeadDivision/Index.vue')
+    },
+    {
+      path: '/lead-divisions/details',
+      name: 'LeadDivisionsDetails',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/LeadDivision/Details.vue')
     }
 
   ]
