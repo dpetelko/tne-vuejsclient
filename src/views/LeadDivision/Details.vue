@@ -153,6 +153,11 @@ export default {
 
 
         })
+  },
+  beforeDestroy() {
+    this.leadDivision = null
+    this.subDivisions = null
+    this.id = null
   }
 }
 </script>

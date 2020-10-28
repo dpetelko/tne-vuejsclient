@@ -21,10 +21,17 @@ const router = new VueRouter({
     },
     {
       path: '/lead-divisions/details',
-      name: 'LeadDivisionsDetails',
+      name: 'LeadDivisionDetails',
       props: true,
       meta: {layout: 'main'},
       component: () => import('../views/LeadDivision/Details.vue')
+    },
+    {
+      path: '/lead-divisions/create',
+      name: 'LeadDivisionCreate',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/LeadDivision/Create.vue')
     }
 
   ]

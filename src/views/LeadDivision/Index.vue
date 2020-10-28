@@ -4,7 +4,7 @@
     <div class="container-fluid" id="main">
       <h3 class="text-center">Головные организации</h3>
       <br/>
-      <a asp-action="Create" asp-controller="LeadDivisions" class="btn btn-secondary">Добавить новую организацию</a>
+      <router-link :to="{name: 'LeadDivisionCreate'}" class="btn btn-secondary">Добавить новую организацию</router-link>
       <p></p>
       <Loader v-if="loading"/>
       <table v-else class="table table-stripped table-hover">
@@ -30,10 +30,11 @@
             <div class="btn-group" role="group">
 
               <router-link
-                  :to="{name: 'LeadDivisionsDetails', params: {id: item.id}}"
+                  :to="{name: 'LeadDivisionDetails', params: {id: item.id}}"
                  class="btn btn-outline-success btn-sm">Подробности</router-link>
-              <a asp-action="Edit" asp-controller="LeadDivisions" asp-route-id="@item.Id"
-                 class="btn btn-outline-warning btn-sm">Редактировать</a>
+              <router-link
+                 :to="{name: 'LeadDivisionEdit', params: {id: item.id}}"
+                 class="btn btn-outline-warning btn-sm">Редактировать</router-link>
               <a class="btn btn-outline-danger font-weight-bold btn-sm" id="deleteButton"
                  href="/LeadDivisions/Delete/@item.Id">Удалить</a>
 
