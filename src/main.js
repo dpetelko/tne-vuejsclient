@@ -4,14 +4,21 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import VueConfirmDialog from 'vue-confirm-dialog'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue.js'
 import 'bootstrap/dist/js/bootstrap.js'
 
+
+
+
+
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuelidate)
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 Vue.config.productionTip = false
 
