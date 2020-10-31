@@ -152,7 +152,7 @@
           <div class="row">
             <div class="col">
               <div class="form-group row">
-                <router-link :to="{name: 'LeadDivisionsIndex'}" class="btn btn-danger">К списку »</router-link>
+                <a class="btn btn-danger" @click.prevent="confirmCancel()">К списку »</a>
                 <input type="submit" value="Сохранить" id="confirmSaveButton" @click.prevent="confirmSubmit()"
                        class="btn btn-warning"/>
               </div>
@@ -203,7 +203,6 @@ export default {
         this.$v.$touch()
         return
       }
-
       this.$confirm(
           {
             message: `Вы уверены, что хотите сохранить изменения?`,
@@ -218,6 +217,26 @@ export default {
             callback: confirm => {
               if (confirm) {
                 this.submitForm()
+              }
+            }
+          }
+      )
+    },
+    confirmCancel() {
+      this.$confirm(
+          {
+            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
+            button: {
+              no: 'Отмена',
+              yes: 'Да'
+            },
+            /**
+             * Callback Function
+             * @param {Boolean} confirm
+             */
+            callback: confirm => {
+              if (confirm) {
+                this.$router.push({name: "LeadDivisionsIndex"})
               }
             }
           }
