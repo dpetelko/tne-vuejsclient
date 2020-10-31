@@ -12,7 +12,8 @@ export default {
             street: '',
             building: '',
             deleted: false
-        }
+        },
+        createResult: false
     },
     actions: {
         async getLeadDivisionsList(ctx) {
@@ -51,6 +52,24 @@ export default {
             })
             const entry = await result.json()
             ctx.commit('updateLeadDivision', entry)
+        },
+        async createLeadDivision(ctx, leadDivision) {
+            const result = await  fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/', {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                //credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    //'Origin' : 'http://localhost:8080'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                //redirect: 'follow', // manual, *follow, error
+                //referrerPolicy: 'no-referrer', // no-referrer, *client
+                body: JSON.stringify(leadDivision) // body data type must match "Content-Type" header
+            })
+            const entry = await result.ok()
+            ctx.commit('getCreateResult', entry)
         }
     },
     mutations: {
@@ -67,6 +86,9 @@ export default {
         },
         getLeadDivision(state) {
             return state.leadDivision
+        },
+        getCreateResult(state) {
+            return state.createResult
         }
 
     }

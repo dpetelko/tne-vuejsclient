@@ -52,7 +52,7 @@
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Дочерние организации</label>
 
-        <div v-if="this.getAllSubDivisionsByLeadDivisionId != null">
+        <div v-if="getAllSubDivisionsByLeadDivisionId.length != 0">
           <br/>
           <table class="table table-stripped table-hover">
             <tr>
@@ -90,7 +90,7 @@
           <input type="text" readonly class="form-control-plaintext" value="Отсутствуют">
         </div>
       </div>
-      <a asp-action="Index" asp-controller="LeadDivisions" class="btn btn-secondary">К списку »</a>
+      <a class="btn btn-secondary" onclick="history.back()">К списку »</a>
       <a asp-action="Edit" asp-controller="LeadDivisions" asp-route-id="@Model.Id"
          class="btn btn-warning">Редактировать</a>
     </div>
