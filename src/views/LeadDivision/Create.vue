@@ -168,10 +168,10 @@ export default {
 
       this.$confirm(
           {
-            message: `Are you sure?`,
+            message: `Вы уверены, что хотите сохранить изменения??`,
             button: {
-              no: 'No',
-              yes: 'Yes'
+              no: 'Отмена',
+              yes: 'Сохранить'
             },
             /**
              * Callback Function
@@ -204,7 +204,10 @@ export default {
             const data = response.json();
             console.error("There was an data!", data.errors);
             // check for error response
-            if (!response.ok) {
+            if (response.ok) {
+              this.$router.push({name: "LeadDivisionsIndex"})
+
+            } else {
               // get error message from body or default to response statusText
               const error = (data && data.message) || response.statusText;
               return Promise.reject(error);
@@ -213,7 +216,6 @@ export default {
           .catch(error => {
             console.error("There was an error!", error);
           });
-      this.$router.push({name: "LeadDivisionsIndex"})
     }
   }
 }
