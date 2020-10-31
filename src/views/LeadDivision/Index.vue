@@ -18,7 +18,7 @@
           <td><strong>Строение</strong></td>
           <td></td>
         </tr>
-        <tr v-for="item in leadDivisions" v-bind:key="item.id">
+        <tr v-for="item in getAllLeadDivisions" v-bind:key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.postCode }}</td>
           <td>{{ item.country }}</td>
@@ -31,10 +31,12 @@
 
               <router-link
                   :to="{name: 'LeadDivisionDetails', params: {id: item.id}}"
-                 class="btn btn-outline-success btn-sm">Подробности</router-link>
+                  class="btn btn-outline-success btn-sm">Подробности
+              </router-link>
               <router-link
-                 :to="{name: 'LeadDivisionEdit', params: {id: item.id}}"
-                 class="btn btn-outline-warning btn-sm">Редактировать</router-link>
+                  :to="{name: 'LeadDivisionEdit', params: {id: item.id}}"
+                  class="btn btn-outline-warning btn-sm">Редактировать
+              </router-link>
               <a class="btn btn-outline-danger font-weight-bold btn-sm" id="deleteButton"
                  href="/LeadDivisions/Delete/@item.Id">Удалить</a>
 
@@ -48,45 +50,14 @@
 </template>
 
 <script>
-import Loader from '@/components/global/Loader.vue'
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   name: 'LeadDivisionsIndex',
-  data() {
-    return {
-      leadDivisions: [],
-      loading: true
-    }
-  },
-  mounted() {
-    fetch('http://127.0.0.1:8050/api/v1/LeadDivisions', {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      //credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-        //'Origin' : 'http://localhost:8080'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      //redirect: 'follow', // manual, *follow, error
-      //referrerPolicy: 'no-referrer', // no-referrer, *client
-      //body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
-        .then(response => response.json())
-        .then(json => {
-          setTimeout(() => {
-            this.leadDivisions = json
-            this.loading = false
-          }, 3000)
-
-        })
-  },
-  components: {
-    Loader
-  },
-  beforeDestroy() {
-    this.leadDivisions = null
-    this.loading = null
+  computed: mapGetters(["getAllLeadDivisions"]),
+  methods: mapActions(["getLeadDivisionsList"]),
+  async mounted() {
+    await this.getLeadDivisionsList();
   }
 }
 

@@ -167,6 +167,7 @@
 
 <script>
 import {required, minLength, maxLength} from 'vuelidate/lib/validators'
+import {mapGetters} from 'vuex'
 
 export default {
   name: "Create",
@@ -197,6 +198,7 @@ export default {
       building: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
+  computed: mapGetters(["getById"]),
   methods: {
     confirmSubmit() {
       if (this.$v.$invalid) {
