@@ -29,9 +29,15 @@ const router = new VueRouter({
     {
       path: '/lead-divisions/create',
       name: 'LeadDivisionCreate',
-      props: true,
       meta: {layout: 'main'},
       component: () => import('../views/LeadDivision/Create.vue')
+    },
+    {
+      path: '/lead-divisions/edit',
+      name: 'LeadDivisionEdit',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/LeadDivision/Edit.vue')
     }
 
   ]
