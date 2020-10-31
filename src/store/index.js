@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import LeadDivision from './Modules/LeadDivision.js'
+import SubDivision from './Modules/SubDivision.js'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    LeadDivision
+    LeadDivision, SubDivision
   }
 })

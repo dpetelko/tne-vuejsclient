@@ -7,44 +7,44 @@
         <label class="col-sm-3 col-form-label">Наименование</label>
         <div class="col-sm-9">
           <label>
-            <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.name">
+            <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.name">
           </label>
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Индекс</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.postCode">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.postCode">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Страна</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.country">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.country">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Регион</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.region">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.region">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Населенный пункт</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.city">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.city">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Улица</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.street">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.street">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Строение</label>
         <div class="col-sm-9">
-          <input type="text" readonly class="form-control-plaintext" v-bind:value="leadDivision.building">
+          <input type="text" readonly class="form-control-plaintext" v-bind:value="getLeadDivision.building">
         </div>
       </div>
 
@@ -52,7 +52,7 @@
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Дочерние организации</label>
 
-        <div v-if="this.subDivisions != null">
+        <div v-if="this.getAllSubDivisionsByLeadDivisionId != null">
           <br/>
           <table class="table table-stripped table-hover">
             <tr>
@@ -65,7 +65,7 @@
               <td>Строение</td>
               <td></td>
             </tr>
-            <tr v-for="item in subDivisions" v-bind:key="item.id">
+            <tr v-for="item in getAllSubDivisionsByLeadDivisionId" v-bind:key="item.id">
               <td>{{ item.name }}</td>
               <td>{{ item.postCode }}</td>
               <td>{{ item.country }}</td>
@@ -98,66 +98,18 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "Details",
-  data() {
-    return {
-      leadDivision: {},
-      subDivisions: null,
-      loading: true
-    }
-  },
+  computed: mapGetters(["getLeadDivision", "getAllSubDivisionsByLeadDivisionId"]),
+  methods: mapActions(["getLeadDivisionById", "getSubDivisionsListByLeadDivisionId"]),
   props: {
     id: String
   },
-  mounted() {
-    fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/' + this.id, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      //credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-        //'Origin' : 'http://localhost:8080'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      //redirect: 'follow', // manual, *follow, error
-      //referrerPolicy: 'no-referrer', // no-referrer, *client
-      //body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
-        .then(response => response.json())
-        .then(json => {
-          this.leadDivision = json
+  async mounted() {
+    await this.getLeadDivisionById(this.id);
+    await this.getSubDivisionsListByLeadDivisionId(this.id);
 
-
-          fetch('http://127.0.0.1:8050/api/v1/SubDivisions/byLeadDivision/' + this.id, {
-            method: 'GET', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            //credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-              'Content-Type': 'application/json'
-              //'Origin' : 'http://localhost:8080'
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            //redirect: 'follow', // manual, *follow, error
-            //referrerPolicy: 'no-referrer', // no-referrer, *client
-            //body: JSON.stringify(data) // body data type must match "Content-Type" header
-          })
-              .then(response => response.json())
-              .then(json => {
-                this.subDivisions = json
-
-
-              })
-
-
-        })
-  },
-  beforeDestroy() {
-    this.leadDivision = null
-    this.subDivisions = null
-    this.id = null
   }
 }
 </script>
