@@ -13,7 +13,7 @@ export default {
             building: '',
             deleted: false
         },
-        createResult: false
+        responseResult: false
     },
     actions: {
         async getLeadDivisionsList(ctx) {
@@ -33,8 +33,23 @@ export default {
                 }
             })
             const entry = await result.json()
-            ctx.commit('updateLeadDivision', entry)
+            if (result.ok) {
+            ctx.commit('updateResponseResult', result.ok)
+            ctx.commit('updateLeadDivision', entry)}
         },
+
+        async updateLeadDivision(ctx, leadDivision) {
+            await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(leadDivision)
+            }).then(response => {
+                ctx.commit('updateResponseResult', response.ok)
+            })
+        },
+
         async createLeadDivision(ctx, leadDivision) {
             await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/', {
                 method: 'POST',
@@ -43,7 +58,7 @@ export default {
                 },
                 body: JSON.stringify(leadDivision)
             }).then(response => {
-                ctx.commit('updateCreateResult', response.ok)
+                ctx.commit('updateResponseResult', response.ok)
             })
 
         }
@@ -55,8 +70,8 @@ export default {
         updateLeadDivision(state, newEntry) {
             state.leadDivision = newEntry
         },
-        updateCreateResult(state, createResult) {
-            state.createResult = createResult
+        updateResponseResult(state, responseResult) {
+            state.responseResult = responseResult
         }
     },
     getters: {
@@ -66,8 +81,8 @@ export default {
         getLeadDivision(state) {
             return state.leadDivision
         },
-        getCreateResult(state) {
-            return state.createResult
+        getResponseResult(state) {
+            return state.responseResult
         }
 
     }

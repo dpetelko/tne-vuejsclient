@@ -152,7 +152,7 @@
           <div class="row">
             <div class="col">
               <div class="form-group row">
-                <a class="btn btn-danger" @click.prevent="confirmCancel()">К списку »</a>
+                <a class="btn btn-danger mr-2" @click.prevent="confirmCancel()">К списку »</a>
                 <input type="submit" value="Сохранить" id="confirmSaveButton" @click.prevent="confirmSubmit()"
                        class="btn btn-warning"/>
               </div>
@@ -198,7 +198,7 @@ export default {
       building: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
-  computed: mapGetters(["getCreateResult"]),
+  computed: mapGetters(["getResponseResult"]),
   methods: {
     confirmSubmit() {
       if (this.$v.$invalid) {
@@ -238,10 +238,22 @@ export default {
     },
     async submitForm() {
       await this.$store.dispatch("createLeadDivision", this.leadDivision)
-      console.log("CreateResult is - ", this.getCreateResult)
-      if (this.getCreateResult) {
-        await this.$router.push({name: "LeadDivisionsIndex"})
+
+      if (!this.getResponseResult) {
+        this.makeToast()
+        //await this.$router.push({name: "LeadDivisionsIndex"})
       }
+    },
+    makeToast() {
+      this.$bvToast.toast("Ошибка при добавлении записи", {
+        title: 'Ошибка!!!',
+        variant: 'danger',
+        autoHideDelay: 5000,
+        toaster: 'b-toaster-bottom-right',
+        solid: true,
+        appendToast: true,
+        toastClass: 'margin-bottom: 60px'
+      })
     }
   }
 }

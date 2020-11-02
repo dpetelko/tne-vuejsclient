@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Navbar from './Modules/Navbar.js'
 import LeadDivision from './Modules/LeadDivision.js'
 import SubDivision from './Modules/SubDivision.js'
 
@@ -13,6 +14,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    LeadDivision, SubDivision
+    LeadDivision, SubDivision, Navbar
   }
 })
