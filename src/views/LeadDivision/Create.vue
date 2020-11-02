@@ -239,9 +239,10 @@ export default {
     async submitForm() {
       await this.$store.dispatch("createLeadDivision", this.leadDivision)
 
-      if (!this.getResponseResult) {
+      if (this.getResponseResult) {
+        await this.$router.push({name: "LeadDivisionsIndex"})
+      } else {
         this.makeToast()
-        //await this.$router.push({name: "LeadDivisionsIndex"})
       }
     },
     makeToast() {
