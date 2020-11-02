@@ -191,14 +191,14 @@ export default {
     leadDivision: {
       name: {required, minLength: minLength(3), maxLength: maxLength(30)},
       postCode: {required, minLength: minLength(6), maxLength: maxLength(6)},
-      country: {required, minLength: minLength(3), maxLength: maxLength(30)},
+      country: {required, minLength: minLength(2), maxLength: maxLength(30)},
       region: {required, minLength: minLength(3), maxLength: maxLength(30)},
       city: {required, minLength: minLength(3), maxLength: maxLength(30)},
       street: {minLength: minLength(3), maxLength: maxLength(30)},
       building: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
-  computed: mapGetters(["getById"]),
+  computed: mapGetters(["getCreateResult"]),
   methods: {
     confirmSubmit() {
       if (this.$v.$invalid) {
@@ -212,10 +212,6 @@ export default {
               no: 'Отмена',
               yes: 'Сохранить'
             },
-            /**
-             * Callback Function
-             * @param {Boolean} confirm
-             */
             callback: confirm => {
               if (confirm) {
                 this.submitForm()
@@ -232,10 +228,6 @@ export default {
               no: 'Отмена',
               yes: 'Да'
             },
-            /**
-             * Callback Function
-             * @param {Boolean} confirm
-             */
             callback: confirm => {
               if (confirm) {
                 this.$router.push({name: "LeadDivisionsIndex"})
@@ -244,37 +236,12 @@ export default {
           }
       )
     },
-    submitForm() {
-      fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-          //'Origin' : 'http://localhost:8080'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        //redirect: 'follow', // manual, *follow, error
-        //referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(this.leadDivision) // body data type must match "Content-Type" header
-      })
-          .then(response => {
-            const data = response.json();
-            console.error("There was an data!", data.errors);
-            // check for error response
-            if (response.ok) {
-              this.$router.push({name: "LeadDivisionsIndex"})
-
-            } else {
-              // get error message from body or default to response statusText
-              const error = (data && data.message) || response.statusText;
-              return Promise.reject(error);
-            }
-          })
-          .catch(error => {
-            console.error("There was an error!", error);
-          });
+    async submitForm() {
+      await this.$store.dispatch("createLeadDivision", this.leadDivision)
+      console.log("CreateResult is - ", this.getCreateResult)
+      if (this.getCreateResult) {
+        await this.$router.push({name: "LeadDivisionsIndex"})
+      }
     }
   }
 }

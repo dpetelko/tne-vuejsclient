@@ -6,8 +6,7 @@
       <br/>
       <router-link :to="{name: 'LeadDivisionCreate'}" class="btn btn-secondary">Добавить новую организацию</router-link>
       <p></p>
-      <Loader v-if="loading"/>
-      <table v-else class="table table-stripped table-hover">
+      <table class="table table-stripped table-hover">
         <tr>
           <td><strong>Наименование</strong></td>
           <td><strong>Индекс</strong></td>
@@ -37,8 +36,6 @@
                   :to="{name: 'LeadDivisionEdit', params: {id: item.id}}"
                   class="btn btn-outline-warning btn-sm">Редактировать
               </router-link>
-              <a class="btn btn-outline-danger font-weight-bold btn-sm" id="deleteButton"
-                 href="/LeadDivisions/Delete/@item.Id">Удалить</a>
 
             </div>
           </td>
