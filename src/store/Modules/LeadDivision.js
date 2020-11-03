@@ -13,7 +13,7 @@ export default {
             building: '',
             deleted: false
         },
-        responseResult: false
+        responseResult: 0
     },
     actions: {
         async getLeadDivisionsList(ctx) {
@@ -26,16 +26,17 @@ export default {
             ctx.commit('updateList', list)
         },
 
-        async getLeadDivisionById(ctx, id) {
-            const result = await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/' + id, {
+        async getLeadDivisionById(ctx) {
+                await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/' + '00000000-0000-0000-0000-000000000000', {
                 headers: {
                     'Content-Type': 'application/json'
                 }
+            }).then((response) => {
+                ctx.commit('updateLeadDivision', response.json())
+            }).catch(function (error) {
+                console.error("LeadDivision Vuex module error = ", error)
+                ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
             })
-            const entry = await result.json()
-            if (result.ok) {
-            ctx.commit('updateResponseResult', result.ok)
-            ctx.commit('updateLeadDivision', entry)}
         },
 
         async updateLeadDivision(ctx, leadDivision) {
@@ -46,7 +47,10 @@ export default {
                 },
                 body: JSON.stringify(leadDivision)
             }).then(response => {
-                ctx.commit('updateResponseResult', response.ok)
+                ctx.commit('updateResponseResult', response.status)
+            }).catch(function (error) {
+                console.error("LeadDivision Vuex module error = ", error)
+                ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
             })
         },
 
@@ -58,9 +62,11 @@ export default {
                 },
                 body: JSON.stringify(leadDivision)
             }).then(response => {
-                ctx.commit('updateResponseResult', response.ok)
+                ctx.commit('updateResponseResult', response.status)
+            }).catch(function (error) {
+                console.error("LeadDivision Vuex module error = ", error)
+                ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
             })
-
         }
     },
     mutations: {

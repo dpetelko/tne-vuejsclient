@@ -136,28 +136,24 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   data: function() {
 return {
-    activeClass:  'card border-info',
-    notActiveClass: 'card',
-    card1Class: 'card',
-    card2Class: 'card',
-    card3Class: 'card',
-    card4Class: 'card',
-    card5Class: 'card',
-    card6Class: 'card',
-    card7Class: 'card',
-    card8Class: 'card',
-    card9Class: 'card'
+    activeClass:  'card border-info shadow-lg bg-light rounded',
+    notActiveClass: 'shadow-sm card',
+    card1Class: 'shadow-sm card',
+    card2Class: 'shadow-sm card',
+    card3Class: 'shadow-sm card',
+    card4Class: 'shadow-sm card',
+    card5Class: 'shadow-sm card',
+    card6Class: 'shadow-sm card',
+    card7Class: 'shadow-sm card',
+    card8Class: 'shadow-sm card',
+    card9Class: 'shadow-sm card'
     };
 }
   }
-
-
-
 </script>
 
 <style scoped>

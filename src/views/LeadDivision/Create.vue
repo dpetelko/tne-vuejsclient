@@ -238,22 +238,21 @@ export default {
     },
     async submitForm() {
       await this.$store.dispatch("createLeadDivision", this.leadDivision)
-
-      if (this.getResponseResult) {
+      console.error(this.getResponseResult)
+      if (this.getResponseResult == 201) {
         await this.$router.push({name: "LeadDivisionsIndex"})
       } else {
-        this.makeToast()
+        this.makeToast(this.getResponseResult.toString())
       }
     },
-    makeToast() {
-      this.$bvToast.toast("Ошибка при добавлении записи", {
-        title: 'Ошибка!!!',
+    makeToast(message = 'Ошибка при добавлении записи') {
+      this.$bvToast.toast(message, {
+        title: 'Внимание!!!',
         variant: 'danger',
         autoHideDelay: 5000,
         toaster: 'b-toaster-bottom-right',
         solid: true,
-        appendToast: true,
-        toastClass: 'margin-bottom: 60px'
+        appendToast: true
       })
     }
   }
