@@ -14,7 +14,8 @@ export default {
             street: '',
             building: '',
             deleted: false
-        }
+        },
+        responseResult: 0
     },
     actions: {
         async getSubDivisionsListByLeadDivisionId(ctx, id) {

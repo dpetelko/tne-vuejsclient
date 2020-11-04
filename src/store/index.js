@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Navbar from './Modules/Navbar.js'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import LeadDivision from './Modules/LeadDivision.js'
 import SubDivision from './Modules/SubDivision.js'
+import MainRepository from './Modules/MainRepository.js'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
@@ -17,6 +17,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    LeadDivision, SubDivision, Navbar
+    LeadDivision, SubDivision, MainRepository
   }
 })

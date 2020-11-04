@@ -1,53 +1,91 @@
 <template>
-  <div class="container-fluid">
-    <h3 class="text-center">Дочерние организации</h3>
-    <br />
-    <a asp-action="Create" asp-controller="SubDivisions" class="btn btn-secondary">Добавить новую организацию</a>
-    <p></p>
-    <table class="table table-stripped table-hover">
-      <tr>
-        <td><strong>Наименование</strong></td>
-        <td><strong>Головная организация</strong></td>
-        <td><strong>Индекс</strong></td>
-        <td><strong>Страна</strong></td>
-        <td><strong>Регион</strong></td>
-        <td><strong>Город</strong></td>
-        <td><strong>Улица</strong></td>
-        <td><strong>Строение</strong></td>
-        <td></td>
-      </tr>
-      @foreach (var item in Model)
-      {
-      <tr>
-        <td>@item.Name</td>
-        <td>@item.LeadDivisionName</td>
-        <td>@item.PostCode</td>
-        <td>@item.Country</td>
-        <td>@item.Region</td>
-        <td>@item.City</td>
-        <td>@item.Street</td>
-        <td>@item.Building</td>
-        <td>
-          <div class="btn-group" role="group">
 
-            <a asp-action="Details" asp-controller="SubDivisions" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Подробности</a>
-            <a asp-action="Edit" asp-controller="SubDivisions" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm">Редактировать</a>
-            <a class="btn btn-outline-danger font-weight-bold btn-sm" id="deleteButton" href="/SubDivisions/Delete/@item.Id">Удалить</a>
+  <div>
+    <div class="container-fluid" id="main">
+      <h3 class="text-center">Дочерние организации</h3>
+      <br/>
+      <router-link :to="{name: 'SubDivisionCreate'}" class="btn btn-secondary">Добавить новую организацию</router-link>
+      <p></p>
+      <table class="table table-stripped table-hover">
+        <tr>
+          <td><strong>Наименование</strong></td>
+          <td><strong>Головная организация</strong></td>
+          <td><strong>Индекс</strong></td>
+          <td><strong>Страна</strong></td>
+          <td><strong>Регион</strong></td>
+          <td><strong>Город</strong></td>
+          <td><strong>Улица</strong></td>
+          <td><strong>Строение</strong></td>
+          <td></td>
+        </tr>
+        <tr v-for="item in getList" v-bind:key="item.id">
+          <td>{{ item.name }}</td>
+          <td>{{ item.leadDivisionName }}</td>
+          <td>{{ item.postCode }}</td>
+          <td>{{ item.country }}</td>
+          <td>{{ item.region }}</td>
+          <td>{{ item.city }}</td>
+          <td>{{ item.street }}</td>
+          <td>{{ item.building }}</td>
+          <td>
+            <div class="btn-group" role="group">
 
-          </div>
-        </td>
-      </tr>
-      }
-    </table>
+              <a @click="showDetails(item.id)" class="btn btn-outline-success btn-sm">Подробности</a>
+              <router-link
+                  :to="{name: 'SubDivisionEdit', params: {id: item.id}}"
+                  class="btn btn-outline-warning btn-sm">Редактировать
+              </router-link>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <b-modal ref="details" size="xl" hide-footer title="Дочернее подразделение - подробности" hide-header-close>
+        <SubDivisionDetails v-bind:id="itemId"/>
+      </b-modal>
+
+    </div>
   </div>
+
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import SubDivisionDetails from '@/views/SubDivision/Details'
 export default {
-  name: "SubDivisionIndex"
+  name: 'SubDivisionsIndex',
+  props: {
+    successMsg: String
+  },
+  data() {
+    return {
+      itemId: String
+    }
+  },
+  computed: mapGetters(["getList"]),
+  methods: {
+    showDetails(id) {
+      this.itemId = id
+      this.$refs['details'].show()
+    }
+  },
+  async mounted() {
+    if (this.successMsg != null) {
+      await this.$store.dispatch("notify", {style: 'info', title: 'Информация', message: this.successMsg});
+    }
+    await this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
+  },
+  components: {
+    SubDivisionDetails
+  }
 }
+
+
 </script>
 
 <style scoped>
-
+#main {
+  margin-top: 60px
+}
 </style>

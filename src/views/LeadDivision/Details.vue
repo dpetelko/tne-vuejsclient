@@ -75,12 +75,12 @@
               <table class="table table-stripped table-hover">
                 <tr>
                   <td><strong>Наименование</strong></td>
-                  <td>Индекс</td>
-                  <td>Страна</td>
-                  <td>Регион</td>
-                  <td>Город</td>
-                  <td>Улица</td>
-                  <td>Строение</td>
+                  <td><strong>Индекс</strong></td>
+                  <td><strong>Страна</strong></td>
+                  <td><strong>Регион</strong></td>
+                  <td><strong>Город</strong></td>
+                  <td><strong>Улица</strong></td>
+                  <td><strong>Строение</strong></td>
                   <td></td>
                 </tr>
                 <tr v-for="item in getAllSubDivisionsByLeadDivisionId" v-bind:key=item.id>
@@ -93,9 +93,10 @@
                   <td>{{ item.building }}</td>
                   <td>
                     <div class="btn-group" role="group">
-
-                      <a asp-action="Details" asp-controller="SubDivisions" asp-route-id="@item.Id"
-                         class="btn btn-outline-success btn-sm">Подробности</a>
+                      <router-link
+                          :to="{name: 'SubDivisionDetails', params: {id: item.id}}"
+                          class="btn btn-outline-success btn-sm">Подробности
+                      </router-link>
                     </div>
                   </td>
                 </tr>

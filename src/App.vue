@@ -10,6 +10,8 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import Home from '@/views/Home.vue'
 import LeadDivisionIndex from '@/views/LeadDivision/Index'
+import SubDivisionIndex from '@/views/SubDivision/Index'
+import SubDivisionDetails from '@/views/SubDivision/Details'
 export default {
   computed: {
 layout() {
@@ -17,7 +19,7 @@ layout() {
 }
   },
   components: {
-    MainLayout, Home, LeadDivisionIndex
+    MainLayout, Home, LeadDivisionIndex,SubDivisionIndex, SubDivisionDetails
   }
 }
 </script>

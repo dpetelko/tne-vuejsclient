@@ -21,8 +21,7 @@
             <h3>организации</h3>
             <p class="card-text">Раздел предоставляет инструменты для работы с дочерними организациями</p>
             <br/>
-            <a asp-action="Index" asp-controller="SubDivisions" class="btn btn-outline-info btn-sm">Перейти к разделу
-              »</a>
+            <router-link to="/sub-divisions/index" class="btn btn-outline-info btn-sm">Перейти к разделу »</router-link>
           </div>
         </div>
       </div>

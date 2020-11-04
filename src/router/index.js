@@ -40,6 +40,20 @@ const router = new VueRouter({
       props: true,
       meta: {layout: 'main'},
       component: () => import('../views/LeadDivision/Edit.vue')
+    },
+    {
+      path: '/sub-divisions/index',
+      name: 'SubDivisionsIndex',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/SubDivision/Index.vue')
+    },
+    {
+      path: '/sub-divisions/details',
+      name: 'SubDivisionDetails',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/SubDivision/Details.vue')
     }
 
   ]
