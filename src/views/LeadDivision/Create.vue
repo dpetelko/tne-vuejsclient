@@ -230,7 +230,10 @@ export default {
             },
             callback: confirm => {
               if (confirm) {
-                this.$router.push({name: "LeadDivisionsIndex"})
+                this.$router.push({
+                  name: "LeadDivisionsIndex",
+                  params: {successMsg: 'Создание отменено пользователем.'}
+                })
               }
             }
           }
@@ -238,22 +241,36 @@ export default {
     },
     async submitForm() {
       await this.$store.dispatch("createLeadDivision", this.leadDivision)
-      console.error(this.getResponseResult)
-      if (this.getResponseResult == 201) {
-        await this.$router.push({name: "LeadDivisionsIndex"})
-      } else {
-        this.makeToast(this.getResponseResult.toString())
+
+      switch (this.getResponseResult) {
+        case 201:
+          await this.$router.push({name: "LeadDivisionsIndex", params: {successMsg: 'Запись успешно создана.'}})
+          break
+
+        case 400:
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: 'Неверный формат записи.'
+          })
+          break
+
+        case 500:
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: 'Ошибка на сервере.'
+          })
+          break
+
+        case 'Нет связи с сервером. Проверьте соединение.':
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: this.getResponseResult
+          })
+          break
       }
-    },
-    makeToast(message = 'Ошибка при добавлении записи') {
-      this.$bvToast.toast(message, {
-        title: 'Внимание!!!',
-        variant: 'danger',
-        autoHideDelay: 5000,
-        toaster: 'b-toaster-bottom-right',
-        solid: true,
-        appendToast: true
-      })
     }
   }
 }

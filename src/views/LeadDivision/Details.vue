@@ -83,7 +83,7 @@
                   <td>Строение</td>
                   <td></td>
                 </tr>
-                <tr v-for="item in getAllSubDivisionsByLeadDivisionId" v-bind:key="item.id">
+                <tr v-for="item in getAllSubDivisionsByLeadDivisionId" v-bind:key=item.id>
                   <td>{{ item.name }}</td>
                   <td>{{ item.postCode }}</td>
                   <td>{{ item.country }}</td>

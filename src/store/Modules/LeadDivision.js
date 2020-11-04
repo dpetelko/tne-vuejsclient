@@ -17,22 +17,27 @@ export default {
     },
     actions: {
         async getLeadDivisionsList(ctx) {
-            const result = await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions', {
+            await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions', {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
-            const list = await result.json()
-            ctx.commit('updateList', list)
+            }).then((response) => response.json())
+                .then((responseData) => {
+                    ctx.commit('updateList', responseData)
+                }).catch(function (error) {
+                    console.error("LeadDivision Vuex module error = ", error)
+                    ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
+                })
         },
 
-        async getLeadDivisionById(ctx) {
-                await fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/' + '00000000-0000-0000-0000-000000000000', {
+        async getLeadDivisionById(ctx, id) {
+            await  fetch('http://127.0.0.1:8050/api/v1/LeadDivisions/' + id, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then((response) => {
-                ctx.commit('updateLeadDivision', response.json())
+            }).then((response) => response.json())
+                .then((responseData) => {
+                ctx.commit('updateLeadDivision', responseData)
             }).catch(function (error) {
                 console.error("LeadDivision Vuex module error = ", error)
                 ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
@@ -65,7 +70,18 @@ export default {
                 ctx.commit('updateResponseResult', response.status)
             }).catch(function (error) {
                 console.error("LeadDivision Vuex module error = ", error)
-                ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
+                ctx.commit('updateResponseResult', 'Нет связи с сервером. Проверьте соединение.')
+            })
+        },
+
+        async notify(ctx, {style = 'warning', title = 'Внимание!!!', message = 'Возникла неизвестная ошибка.',}) {
+            await this._vm.$bvToast.toast(message, {
+                title: title,
+                variant: style,
+                autoHideDelay: 10000,
+                toaster: 'b-toaster-bottom-right',
+                solid: true,
+                appendToast: true
             })
         }
     },

@@ -51,10 +51,17 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'LeadDivisionsIndex',
+  props: {
+    successMsg: String
+  },
   computed: mapGetters(["getAllLeadDivisions"]),
-  methods: mapActions(["getLeadDivisionsList"]),
+  methods: mapActions(["getLeadDivisionsList", "notify"]),
   async mounted() {
+    if (this.successMsg != null) {
+      await this.notify({style: 'info', title: 'Информация', message: this.successMsg});
+    }
     await this.getLeadDivisionsList();
+
   }
 }
 

@@ -193,11 +193,7 @@ export default {
   computed: mapGetters(["getLeadDivision", "getResponseResult"]),
   async mounted() {
     await this.$store.dispatch("getLeadDivisionById", this.id)
-    console.log("ResponseResult = ", this.getResponseResult)
-    console.log("getLeadDivision = ", this.getLeadDivision)
-    if (this.getResponseResult) {
-      this.leadDivision = this.getLeadDivision
-    }
+    this.leadDivision = this.getLeadDivision
   },
   methods: {
     confirmSubmit() {
@@ -230,7 +226,10 @@ export default {
             },
             callback: confirm => {
               if (confirm) {
-                this.$router.push({name: "LeadDivisionsIndex"})
+                this.$router.push({
+                  name: "LeadDivisionsIndex",
+                  params: {successMsg: 'Редактирование отменено пользователем.'}
+                })
               }
             }
           }
@@ -238,8 +237,43 @@ export default {
     },
     async submitForm() {
       await this.$store.dispatch("updateLeadDivision", this.leadDivision)
-      if (this.getResponseResult) {
-        await this.$router.push({name: "LeadDivisionsIndex"})
+
+      switch (this.getResponseResult) {
+        case 200:
+          await this.$router.push({name: "LeadDivisionsIndex", params: {successMsg: 'Запись успешно сохранена.'}})
+          break
+
+        case 400:
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: 'Неверный формат записи.'
+          })
+          break
+
+        case 404:
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: 'Запись не найдена в базе данных.'
+          })
+          break
+
+        case 500:
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись.',
+            message: 'Ошибка на сервере.'
+          })
+          break
+
+        case 'Нет связи с сервером. Проверьте соединение.':
+          await this.$store.dispatch("notify", {
+            style: 'danger',
+            title: 'Внимание! Не удается сохранить запись!',
+            message: this.getResponseResult
+          })
+          break
       }
     }
   }

@@ -16,6 +16,7 @@ const router = new VueRouter({
     {
       path: '/lead-divisions/index',
       name: 'LeadDivisionsIndex',
+      props: true,
       meta: {layout: 'main'},
       component: () => import('../views/LeadDivision/Index.vue')
     },
@@ -29,6 +30,7 @@ const router = new VueRouter({
     {
       path: '/lead-divisions/create',
       name: 'LeadDivisionCreate',
+      props: true,
       meta: {layout: 'main'},
       component: () => import('../views/LeadDivision/Create.vue')
     },
