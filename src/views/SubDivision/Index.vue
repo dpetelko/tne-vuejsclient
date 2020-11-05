@@ -4,7 +4,7 @@
     <div class="container-fluid" id="main">
       <h3 class="text-center">Дочерние организации</h3>
       <br/>
-      <router-link :to="{name: 'SubDivisionCreate'}" class="btn btn-secondary">Добавить новую организацию</router-link>
+      <a @click="showCreate()" class="btn btn-secondary">Добавить новую организацию</a>
       <p></p>
       <table class="table table-stripped table-hover">
         <tr>
@@ -41,8 +41,31 @@
         </tr>
       </table>
 
-      <b-modal ref="details" size="xl" hide-footer title="Дочернее подразделение - подробности" hide-header-close>
+      <b-modal
+          ref="details"
+          size="xl"
+          centered
+          body-bg-variant="light"
+          title="Дочернее подразделение - подробности">
+        <template #modal-footer="{  }">
+          <b-button variant="warning" v-on:click="edit()">Редактировать</b-button>
+        </template>
         <SubDivisionDetails v-bind:id="itemId"/>
+      </b-modal>
+
+      <b-modal
+          ref="create"
+          size="xl"
+          centered
+          body-bg-variant="light"
+          no-close-on-backdrop
+          hide-header-close
+          title="Дочернее подразделение - создание">
+        <template #modal-footer="{  }">
+          <b-button variant="danger" v-on:click="confirmCancelCreate()">Отмена</b-button>
+          <b-button variant="warning" v-on:click="confirmSubmitCreate()">Сохранить</b-button>
+        </template>
+        <SubDivisionCreate v-on:close="closeCreate($event)" ref="createModal"/>
       </b-modal>
 
     </div>
@@ -52,7 +75,9 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import SubDivisionDetails from '@/views/SubDivision/Details'
+import SubDivisionDetails from '@/views/SubDivision/Details.vue'
+import SubDivisionCreate from '@/views/SubDivision/Create.vue'
+
 export default {
   name: 'SubDivisionsIndex',
   props: {
@@ -68,6 +93,40 @@ export default {
     showDetails(id) {
       this.itemId = id
       this.$refs['details'].show()
+    },
+    showCreate() {
+      this.$refs['create'].show()
+    },
+    closeCreate(notifyParams) {
+      this.$refs['create'].hide();
+      this.$store.dispatch("notify", notifyParams)
+      this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
+    },
+    confirmCancelCreate() {
+      console.error("confirmCancel")
+      this.$confirm(
+          {
+            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
+            button: {
+              no: 'Отмена',
+              yes: 'Да'
+            },
+            callback: confirm => {
+              if (confirm) {
+                this.$refs['create'].hide();
+                this.$store.dispatch("notify", {
+                  style: 'warning',
+                  title: 'Внимание',
+                  message: 'Сохранение отменено пользователем.'
+                })
+              }
+            }
+          }
+      )
+    },
+    confirmSubmitCreate() {
+      console.error("confirmSubmit")
+      this.$refs.createModal.confirmSubmit();
     }
   },
   async mounted() {
@@ -77,13 +136,12 @@ export default {
     await this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
   },
   components: {
-    SubDivisionDetails
+    SubDivisionDetails, SubDivisionCreate
   }
 }
 
 
 </script>
-
 <style scoped>
 #main {
   margin-top: 60px

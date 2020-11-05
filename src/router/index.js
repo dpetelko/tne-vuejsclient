@@ -54,6 +54,13 @@ const router = new VueRouter({
       props: true,
       meta: {layout: 'main'},
       component: () => import('../views/SubDivision/Details.vue')
+    },
+    {
+      path: '/sub-divisions/create',
+      name: 'SubDivisionCreate',
+      props: true,
+      meta: {layout: 'main'},
+      component: () => import('../views/SubDivision/Create.vue')
     }
 
   ]

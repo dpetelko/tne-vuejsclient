@@ -48,7 +48,7 @@ export default {
                 })
         },
 
-        async updateEntry(ctx, url, entry) {
+        async updateEntry(ctx, [url, entry]) {
             await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -63,7 +63,7 @@ export default {
             })
         },
 
-        async createEntry(ctx, url, entry) {
+        async createEntry(ctx, [url, entry]) {
             await fetch(url, {
                 method: 'POST',
                 headers: {
