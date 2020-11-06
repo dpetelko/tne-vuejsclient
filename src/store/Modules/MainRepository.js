@@ -3,7 +3,8 @@ export default {
         list: [],
         childrenList: [],
         entry: {},
-        responseResult: 0
+        responseResult: 0,
+        loader: false
     },
     actions: {
         async getEntryList(ctx, url) {
@@ -35,7 +36,7 @@ export default {
         },
 
         async getEntryById(ctx, url) {
-            await  fetch(url, {
+            await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -87,6 +88,21 @@ export default {
                 solid: true,
                 appendToast: true
             })
+        },
+        async dropDb(ctx) {
+            this._vm.$loading.show({delay: 0})
+            await fetch('http://127.0.0.1:8050/api/v1/Utils/', {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                ctx.commit('updateResponseResult', response.status)
+            }).catch(function (error) {
+                console.error("MainRepository Vuex module error = ", error)
+                ctx.commit('updateResponseResult', 'Нет связи с сервером. Проверьте соединение.')
+            }).finally(() => {
+                this._vm.$loading.hide()
+            })
         }
     },
     mutations: {
@@ -102,6 +118,7 @@ export default {
         updateResponseResult(state, responseResult) {
             state.responseResult = responseResult
         }
+
     },
     getters: {
         getList(state) {
@@ -115,7 +132,6 @@ export default {
         },
         getResult(state) {
             return state.responseResult
-        }
-
+        },
     }
 }

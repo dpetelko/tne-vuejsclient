@@ -135,16 +135,6 @@
               <div class="form-group row">
                 <label class="control-label">Строение</label>
                 <input id="building" type="text" v-model.trim="leadDivision.building" class="form-control"/>
-                <small class="text-danger"
-                       v-if="$v.leadDivision.building.$dirty && !$v.leadDivision.building.minLength">
-                  Длина должна быть не меньше {{ $v.leadDivision.building.$params.minLength.min }} символов. Сейчас -
-                  {{ leadDivision.building.length }} символов
-                </small>
-                <small class="text-danger"
-                       v-else-if="$v.leadDivision.building.$dirty && !$v.leadDivision.building.maxLength">
-                  Длина должна быть не больше {{ $v.leadDivision.building.$params.maxLength.max }} символов. Сейчас -
-                  {{ leadDivision.building.length }} символов
-                </small>
               </div>
             </div>
           </div>
@@ -194,8 +184,7 @@ export default {
       country: {required, minLength: minLength(2), maxLength: maxLength(30)},
       region: {required, minLength: minLength(3), maxLength: maxLength(30)},
       city: {required, minLength: minLength(3), maxLength: maxLength(30)},
-      street: {minLength: minLength(3), maxLength: maxLength(30)},
-      building: {minLength: minLength(3), maxLength: maxLength(30)}
+      street: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
   computed: mapGetters(["getResponseResult"]),

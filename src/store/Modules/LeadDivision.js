@@ -74,16 +74,16 @@ export default {
             })
         },
 
-        async notify(ctx, {style = 'warning', title = 'Внимание!!!', message = 'Возникла неизвестная ошибка.',}) {
-            await this._vm.$bvToast.toast(message, {
-                title: title,
-                variant: style,
-                autoHideDelay: 10000,
-                toaster: 'b-toaster-bottom-right',
-                solid: true,
-                appendToast: true
-            })
-        }
+        // async notify(ctx, {style = 'warning', title = 'Внимание!!!', message = 'Возникла неизвестная ошибка.',}) {
+        //     await this._vm.$bvToast.toast(message, {
+        //         title: title,
+        //         variant: style,
+        //         autoHideDelay: 10000,
+        //         toaster: 'b-toaster-bottom-right',
+        //         solid: true,
+        //         appendToast: true
+        //     })
+        // }
     },
     mutations: {
         updateList(state, newList) {

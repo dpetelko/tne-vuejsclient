@@ -29,13 +29,8 @@
           <td>{{ item.building }}</td>
           <td>
             <div class="btn-group" role="group">
-
               <a @click="showDetails(item.id)" class="btn btn-outline-success btn-sm">Подробности</a>
-              <router-link
-                  :to="{name: 'SubDivisionEdit', params: {id: item.id}}"
-                  class="btn btn-outline-warning btn-sm">Редактировать
-              </router-link>
-
+              <a @click="showUpdate(item.id)" class="btn btn-warning">Редактировать</a>
             </div>
           </td>
         </tr>
@@ -48,7 +43,7 @@
           body-bg-variant="light"
           title="Дочернее подразделение - подробности">
         <template #modal-footer="{  }">
-          <b-button variant="warning" v-on:click="edit()">Редактировать</b-button>
+          <a @click="showUpdate(itemId)" class="btn btn-warning">Редактировать</a>
         </template>
         <SubDivisionDetails v-bind:id="itemId"/>
       </b-modal>
@@ -68,6 +63,21 @@
         <SubDivisionCreate v-on:close="closeCreate($event)" ref="createModal"/>
       </b-modal>
 
+      <b-modal
+          ref="update"
+          size="xl"
+          centered
+          body-bg-variant="light"
+          no-close-on-backdrop
+          hide-header-close
+          title="Дочернее подразделение - редактирование">
+        <template #modal-footer="{  }">
+          <b-button variant="danger" v-on:click="confirmCancelUpdate()">Отмена</b-button>
+          <b-button variant="warning" v-on:click="confirmSubmitUpdate()">Сохранить</b-button>
+        </template>
+        <SubDivisionEdit v-bind:id="itemId" v-on:close="closeUpdate($event)" ref="updateModal"/>
+      </b-modal>
+
     </div>
   </div>
 
@@ -77,6 +87,7 @@
 import {mapGetters} from 'vuex'
 import SubDivisionDetails from '@/views/SubDivision/Details.vue'
 import SubDivisionCreate from '@/views/SubDivision/Create.vue'
+import SubDivisionEdit from '@/views/SubDivision/Edit.vue'
 
 export default {
   name: 'SubDivisionsIndex',
@@ -93,6 +104,16 @@ export default {
     showDetails(id) {
       this.itemId = id
       this.$refs['details'].show()
+    },
+    showUpdate(id) {
+      this.itemId = id
+      this.$refs['update'].show()
+    },
+    closeUpdate(notifyParams) {
+      this.$refs['update'].hide();
+      this.$store.dispatch("notify", notifyParams)
+      this.$refs['details'].hide()
+      this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
     },
     showCreate() {
       this.$refs['create'].show()
@@ -125,8 +146,32 @@ export default {
       )
     },
     confirmSubmitCreate() {
-      console.error("confirmSubmit")
       this.$refs.createModal.confirmSubmit();
+    },
+    confirmCancelUpdate() {
+      console.error("confirmCancelUpdate")
+      this.$confirm(
+          {
+            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
+            button: {
+              no: 'Отмена',
+              yes: 'Да'
+            },
+            callback: confirm => {
+              if (confirm) {
+                this.$refs['update'].hide();
+                this.$store.dispatch("notify", {
+                  style: 'warning',
+                  title: 'Внимание',
+                  message: 'Сохранение отменено пользователем.'
+                })
+              }
+            }
+          }
+      )
+    },
+    confirmSubmitUpdate() {
+      this.$refs.updateModal.confirmSubmit();
     }
   },
   async mounted() {
@@ -136,7 +181,7 @@ export default {
     await this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
   },
   components: {
-    SubDivisionDetails, SubDivisionCreate
+    SubDivisionDetails, SubDivisionCreate, SubDivisionEdit
   }
 }
 

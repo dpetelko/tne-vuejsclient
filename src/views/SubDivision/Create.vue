@@ -156,17 +156,6 @@
               <div class="form-group row">
                 <label class="control-label">Строение</label>
                 <input id="building" type="text" v-model.trim="subDivision.building" class="form-control"/>
-                <small class="text-danger"
-                       v-if="!$v.subDivision.building.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.building.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.building.length }} символов
-                </small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.building.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.building.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.building.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
               </div>
             </div>
           </div>
@@ -199,21 +188,7 @@ export default {
   name: "Create",
   data() {
     return {
-      leadDivisionList: [],
-      subDivision: {
-        id: '00000000-0000-0000-0000-000000000000',
-        name: '',
-        leadDivisionId: '',
-        leadDivisionName: '',
-        addressId: '00000000-0000-0000-0000-000000000000',
-        postCode: '',
-        country: '',
-        region: '',
-        city: '',
-        street: '',
-        building: '',
-        deleted: false
-      }
+      leadDivisionList: []
     }
   },
   validations: {
@@ -224,8 +199,7 @@ export default {
       country: {required, minLength: minLength(2), maxLength: maxLength(30)},
       region: {required, minLength: minLength(3), maxLength: maxLength(30)},
       city: {required, minLength: minLength(3), maxLength: maxLength(30)},
-      street: {minLength: minLength(3), maxLength: maxLength(30)},
-      building: {minLength: minLength(3), maxLength: maxLength(30)}
+      street: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
   computed: mapGetters(["getResponseResult", "getChildrenList"]),
