@@ -188,8 +188,23 @@ export default {
   name: "Create",
   data() {
     return {
-      leadDivisionList: []
+      leadDivisionList: [],
+      subDivision: {
+        id: '00000000-0000-0000-0000-000000000000',
+        name: '',
+        leadDivisionId: '',
+        leadDivisionName: '',
+        addressId: '00000000-0000-0000-0000-000000000000',
+        postCode: '',
+        country: '',
+        region: '',
+        city: '',
+        street: '',
+        building: '',
+        deleted: false
+      }
     }
+
   },
   validations: {
     subDivision: {
@@ -292,9 +307,6 @@ export default {
 </script>
 
 <style scoped>
-#main {
-  margin-top: 60px;
-}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

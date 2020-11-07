@@ -62,7 +62,6 @@ export default {
             callback: async confirm => {
               if (confirm) {
                 await this.$store.dispatch("dropDb")
-                await this.$router.go()
                 switch (this.getResponseResult) {
                   case 200:
                     await this.$store.dispatch("notify", {
@@ -95,6 +94,7 @@ export default {
                   message: 'Сохранение отменено пользователем.'
                 })
               }
+              await this.$router.push({name: "Home"})
             }
           }
       )

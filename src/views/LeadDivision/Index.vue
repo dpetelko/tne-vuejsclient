@@ -61,7 +61,6 @@ export default {
       await this.notify({style: 'info', title: 'Информация', message: this.successMsg});
     }
     await this.getLeadDivisionsList();
-
   }
 }
 
