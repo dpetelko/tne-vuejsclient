@@ -1,6 +1,5 @@
 <template>
   <div id="main" class="container-sm">
-    <vue-confirm-dialog></vue-confirm-dialog>
     <br>
     <h3 class="text-center">Создание новой головной организации</h3>
     <br>
@@ -229,7 +228,7 @@ export default {
       )
     },
     async submitForm() {
-      await this.$store.dispatch("createLeadDivision", this.leadDivision)
+      await this.$store.dispatch("createEntry",['http://127.0.0.1:8050/api/v1/LeadDivisions/', this.leadDivision])
 
       switch (this.getResponseResult) {
         case 201:

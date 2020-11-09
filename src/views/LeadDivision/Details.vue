@@ -9,7 +9,7 @@
             <div class="form-group row ">
               <label class="control-label">Наименование</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.name }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.name }}</strong></span>
             </div>
           </div>
         </div>
@@ -19,14 +19,14 @@
             <div class="form-group row">
               <label class="control-label">Индекс</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.postCode }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.postCode }}</strong></span>
             </div>
           </div>
           <div class="col">
             <div class="form-group row">
               <label class="control-label">Страна</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.country }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.country }}</strong></span>
             </div>
           </div>
         </div>
@@ -36,14 +36,14 @@
             <div class="form-group row">
               <label class="control-label">Регион</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.region }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.region }}</strong></span>
             </div>
           </div>
           <div class="col">
             <div class="form-group row">
               <label class="control-label">Населенный пункт</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.city }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.city }}</strong></span>
             </div>
           </div>
         </div>
@@ -54,14 +54,14 @@
             <div class="form-group row">
               <label class="control-label">Улица</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.street }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.street }}</strong></span>
             </div>
           </div>
           <div class="col">
             <div class="form-group row">
               <label class="control-label">Строение</label>
               <div class="col-md-1"></div>
-              <span class="control-label"><strong>{{ getLeadDivision.building }}</strong></span>
+              <span class="control-label"><strong>{{ getEntry.building }}</strong></span>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
           <div class="form-group row">
             <label class="col-sm-3 col-form-label">Дочерние организации</label>
 
-            <div v-if="getAllSubDivisionsByLeadDivisionId.length != 0">
+            <div v-if="getChildrenList.length != 0">
               <br/>
               <table class="table table-stripped table-hover">
                 <tr>
@@ -83,7 +83,7 @@
                   <td><strong>Строение</strong></td>
                   <td></td>
                 </tr>
-                <tr v-for="item in getAllSubDivisionsByLeadDivisionId" v-bind:key=item.id>
+                <tr v-for="item in getChildrenList" v-bind:key=item.id>
                   <td>{{ item.name }}</td>
                   <td>{{ item.postCode }}</td>
                   <td>{{ item.country }}</td>
@@ -123,14 +123,14 @@
 import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "Details",
-  computed: mapGetters(["getLeadDivision", "getAllSubDivisionsByLeadDivisionId"]),
-  methods: mapActions(["getLeadDivisionById", "getSubDivisionsListByLeadDivisionId"]),
+  computed: mapGetters(["getEntry", "getChildrenList"]),
+  methods: mapActions(["getEntryById", "getChildrenEntryList"]),
   props: {
     id: String
   },
   async mounted() {
-    await this.getLeadDivisionById(this.id);
-    await this.getSubDivisionsListByLeadDivisionId(this.id);
+    await this.getChildrenEntryList('http://127.0.0.1:8050/api/v1/SubDivisions/byLeadDivision/' + this.id);
+    await this.getEntryById('http://127.0.0.1:8050/api/v1/LeadDivision/' + this.id);
   }
 }
 </script>

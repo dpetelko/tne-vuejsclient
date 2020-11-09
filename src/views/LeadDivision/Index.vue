@@ -17,7 +17,7 @@
           <td><strong>Строение</strong></td>
           <td></td>
         </tr>
-        <tr v-for="item in getAllLeadDivisions" v-bind:key="item.id">
+        <tr v-for="item in getList" v-bind:key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.postCode }}</td>
           <td>{{ item.country }}</td>
@@ -54,13 +54,13 @@ export default {
   props: {
     successMsg: String
   },
-  computed: mapGetters(["getAllLeadDivisions"]),
-  methods: mapActions(["getLeadDivisionsList", "notify"]),
+  computed: mapGetters([ "getList"]),
+  methods: mapActions(["getEntryList", "notify"]),
   async mounted() {
     if (this.successMsg != null) {
       await this.notify({style: 'info', title: 'Информация', message: this.successMsg});
     }
-    await this.getLeadDivisionsList();
+    await this.getEntryList('http://127.0.0.1:8050/api/v1/LeadDivisions');
   }
 }
 

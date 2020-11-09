@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <vue-confirm-dialog></vue-confirm-dialog>
     <div class="row">
       <div class="col-md-12">
         <form id="createForm">

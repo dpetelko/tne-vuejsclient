@@ -30,7 +30,7 @@
           <td>
             <div class="btn-group" role="group">
               <a @click="showDetails(item.id)" class="btn btn-outline-success btn-sm">Подробности</a>
-              <a @click="showUpdate(item.id)" class="btn btn-warning">Редактировать</a>
+              <a @click="showUpdate(item.id)" class="btn btn-warning btn-sm">Редактировать</a>
             </div>
           </td>
         </tr>
