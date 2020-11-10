@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <table class="table table-stripped table-hover" id="subDivisionTable">
+    <table class="table" id="subDivisionTable">
       <tr>
         <td>Наименование</td>
         <td><strong>{{ getEntry.name }}</strong></td>
@@ -28,9 +28,10 @@
       </tr>
     </table>
 
-    <table class="table table-stripped table-hover table-sm" id="providerTable">
-      <caption class="text-dark"><h5>Связанные объекты потребления</h5></caption>
-      <div v-if="getChildrenList.length != 0">
+    <div v-if="getChildrenList.length != 0">
+      <table class="table">
+        <caption class="text-dark"><h5>Связанные объекты потребления</h5></caption>
+
         <tr>
           <td><strong>Наименование</strong></td>
           <td><strong>Индекс</strong></td>
@@ -51,24 +52,23 @@
           <td>{{ item.building }}</td>
           <td>
             <div class="btn-group" role="group">
-              <a asp-action="Details" asp-controller="SubDivisions" asp-route-id="@item.Id"
-                 class="btn btn-outline-success btn-sm">Подробности</a>
+              <b-button href="" variant="outline-success">
+                <b-icon icon="info-circle" scale="1" aria-hidden="true"></b-icon>
+              </b-button>
             </div>
           </td>
         </tr>
-      </div>
-      <div v-else>
-        <tr>
-          <td>Объекты потребления отсутствуют</td>
-        </tr>
-      </div>
-    </table>
-
+      </table>
+    </div>
+    <div v-else>
+      <p class="text-dark"><strong>Связанные объекты потребления отсутствуют</strong></p>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "Details",
   computed: mapGetters(["getEntry", "getChildrenList"]),
@@ -86,8 +86,5 @@ export default {
 <style scoped>
 .table caption {
   caption-side: top;
-}
-.table td {
-  padding: 1.00rem;
 }
 </style>

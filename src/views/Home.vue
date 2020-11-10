@@ -2,7 +2,7 @@
   <div id="menu" class="container-sm">
     <br/>
     <div class="row">
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 mb-3">
         <div @mouseenter="card1Class=activeClass" @mouseleave="card1Class=notActiveClass"  :class="card1Class">
           <div class="card-header">
             <h3>Головные</h3>
@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 mb-3">
         <div @mouseenter="card2Class=activeClass" @mouseleave="card2Class=notActiveClass"  :class="card2Class">
           <div class="card-header">
             <h3>Дочерние</h3>
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 mb-3">
         <div @mouseenter="card3Class=activeClass" @mouseleave="card3Class=notActiveClass"  :class="card3Class">
           <div class="card-header">
             <h3>Объекты</h3>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-md-12">
+      <div class="col-xs-12 col-md-12 mb-0 mt-0">
         <hr style="width:100%;"/>
       </div>
     </div>

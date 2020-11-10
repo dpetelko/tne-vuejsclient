@@ -1,167 +1,163 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <form id="createForm">
 
-          <div class="row">
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Наименование</label>
-                <input id="name" type="text" v-model.trim="subDivision.name" class="form-control"/>
-                <small v-if="!$v.subDivision.name.required" class="text-danger">Поле не
-                  может быть пустым</small>
-                <small class="text-danger" v-else-if="!$v.subDivision.name.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.name.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.name.length }} символов
-                </small>
-                <small class="text-danger" v-else-if="!$v.subDivision.name.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.name.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.name.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
+    <form id="createForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Наименование</label>
+            <input id="name" type="text" v-model.trim="subDivision.name" class="form-control"/>
+            <small v-if="!$v.subDivision.name.required" class="text-danger">Поле не
+              может быть пустым</small>
+            <small class="text-danger" v-else-if="!$v.subDivision.name.minLength">
+              Длина должна быть не меньше {{ $v.subDivision.name.$params.minLength.min }} символов. Сейчас -
+              {{ subDivision.name.length }} символов
+            </small>
+            <small class="text-danger" v-else-if="!$v.subDivision.name.maxLength">
+              Длина должна быть не больше {{ $v.subDivision.name.$params.maxLength.max }} символов. Сейчас -
+              {{ subDivision.name.length }} символов
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
 
-            <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
 
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Головная организация</label>
-                <select v-model="subDivision.leadDivisionId" class="form-control">
-                  <option v-for="item in leadDivisionList" v-bind:key=item.id v-text="item.name" v-bind:value="item.id"/>
-                </select>
-                <small v-if="!$v.subDivision.leadDivisionId.required" class="text-danger">Поле не
-                  может быть пустым</small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-
-              </div>
-            </div>
-
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Головная организация</label>
+            <select v-model="subDivision.leadDivisionId" class="form-control">
+              <option v-for="item in leadDivisionList" v-bind:key=item.id v-text="item.name" v-bind:value="item.id"/>
+            </select>
+            <small v-if="!$v.subDivision.leadDivisionId.required" class="text-danger">Поле не
+              может быть пустым</small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
 
           </div>
+        </div>
 
-
-          <div class="row">
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Индекс</label>
-                <input id="postCode" type="number" v-model.trim="subDivision.postCode" class="form-control"/>
-                <small v-if="!$v.subDivision.postCode.required" class="text-danger">Поле
-                  не может быть пустым</small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.postCode.minLength">
-                  Длина должна быть {{ $v.subDivision.postCode.$params.minLength.min }} цифр. Сейчас -
-                  {{ subDivision.postCode.length }} цифр
-                </small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.postCode.maxLength">
-                  Длина должна быть {{ $v.subDivision.postCode.$params.maxLength.max }} цифр. Сейчас -
-                  {{ subDivision.postCode.length }} цифр
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
-
-            <div class="col-md-1"></div>
-
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Страна</label>
-                <input id="country" type="text" v-model.trim="subDivision.country" class="form-control"/>
-                <small v-if="!$v.subDivision.country.required" class="text-danger">Поле
-                  не может быть пустым</small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.country.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.country.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.country.length }} символов
-                </small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.country.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.country.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.country.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Регион</label>
-                <input id="region" type="text" v-model.trim="subDivision.region" class="form-control"/>
-                <small v-if="!$v.subDivision.region.required" class="text-danger">Поле
-                  не
-                  может быть пустым</small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.region.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.region.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.region.length }} символов
-                </small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.region.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.region.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.region.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
-
-            <div class="col-md-1"></div>
-
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Город</label>
-                <input id="city" type="text" v-model.trim="subDivision.city" class="form-control"/>
-                <small v-if="!$v.subDivision.city.required" class="text-danger">Поле не
-                  может быть пустым</small>
-                <small class="text-danger" v-else-if="!$v.subDivision.city.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.city.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.city.length }} символов
-                </small>
-                <small class="text-danger" v-else-if="!$v.subDivision.city.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.city.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.city.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Улица</label>
-                <input id="street" type="text" v-model.trim="subDivision.street" class="form-control"/>
-
-                <small class="text-danger" v-if="!$v.subDivision.street.minLength">
-                  Длина должна быть не меньше {{ $v.subDivision.street.$params.minLength.min }} символов. Сейчас -
-                  {{ subDivision.street.length }} символов
-                </small>
-                <small class="text-danger"
-                       v-else-if="!$v.subDivision.street.maxLength">
-                  Длина должна быть не больше {{ $v.subDivision.street.$params.maxLength.max }} символов. Сейчас -
-                  {{ subDivision.street.length }} символов
-                </small>
-                <small v-else class="text-success">Поле заполнено корректно</small>
-              </div>
-            </div>
-
-            <div class="col-md-1"></div>
-
-            <div class="col">
-              <div class="form-group row">
-                <label class="control-label">Строение</label>
-                <input id="building" type="text" v-model.trim="subDivision.building" class="form-control"/>
-              </div>
-            </div>
-          </div>
-        </form>
 
       </div>
-    </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Индекс</label>
+            <input id="postCode" type="number" v-model.trim="subDivision.postCode" class="form-control"/>
+            <small v-if="!$v.subDivision.postCode.required" class="text-danger">Поле
+              не может быть пустым</small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.postCode.minLength">
+              Длина должна быть {{ $v.subDivision.postCode.$params.minLength.min }} цифр. Сейчас -
+              {{ subDivision.postCode.length }} цифр
+            </small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.postCode.maxLength">
+              Длина должна быть {{ $v.subDivision.postCode.$params.maxLength.max }} цифр. Сейчас -
+              {{ subDivision.postCode.length }} цифр
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Страна</label>
+            <input id="country" type="text" v-model.trim="subDivision.country" class="form-control"/>
+            <small v-if="!$v.subDivision.country.required" class="text-danger">Поле
+              не может быть пустым</small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.country.minLength">
+              Длина должна быть не меньше {{ $v.subDivision.country.$params.minLength.min }} символов. Сейчас -
+              {{ subDivision.country.length }} символов
+            </small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.country.maxLength">
+              Длина должна быть не больше {{ $v.subDivision.country.$params.maxLength.max }} символов. Сейчас -
+              {{ subDivision.country.length }} символов
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Регион</label>
+            <input id="region" type="text" v-model.trim="subDivision.region" class="form-control"/>
+            <small v-if="!$v.subDivision.region.required" class="text-danger">Поле
+              не
+              может быть пустым</small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.region.minLength">
+              Длина должна быть не меньше {{ $v.subDivision.region.$params.minLength.min }} символов. Сейчас -
+              {{ subDivision.region.length }} символов
+            </small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.region.maxLength">
+              Длина должна быть не больше {{ $v.subDivision.region.$params.maxLength.max }} символов. Сейчас -
+              {{ subDivision.region.length }} символов
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Город</label>
+            <input id="city" type="text" v-model.trim="subDivision.city" class="form-control"/>
+            <small v-if="!$v.subDivision.city.required" class="text-danger">Поле не
+              может быть пустым</small>
+            <small class="text-danger" v-else-if="!$v.subDivision.city.minLength">
+              Длина должна быть не меньше {{ $v.subDivision.city.$params.minLength.min }} символов. Сейчас -
+              {{ subDivision.city.length }} символов
+            </small>
+            <small class="text-danger" v-else-if="!$v.subDivision.city.maxLength">
+              Длина должна быть не больше {{ $v.subDivision.city.$params.maxLength.max }} символов. Сейчас -
+              {{ subDivision.city.length }} символов
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Улица</label>
+            <input id="street" type="text" v-model.trim="subDivision.street" class="form-control"/>
+
+            <small class="text-danger" v-if="!$v.subDivision.street.minLength">
+              Длина должна быть не меньше {{ $v.subDivision.street.$params.minLength.min }} символов. Сейчас -
+              {{ subDivision.street.length }} символов
+            </small>
+            <small class="text-danger"
+                   v-else-if="!$v.subDivision.street.maxLength">
+              Длина должна быть не больше {{ $v.subDivision.street.$params.maxLength.max }} символов. Сейчас -
+              {{ subDivision.street.length }} символов
+            </small>
+            <small v-else class="text-success">Поле заполнено корректно</small>
+          </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col">
+          <div class="form-group row">
+            <label class="control-label">Строение</label>
+            <input id="building" type="text" v-model.trim="subDivision.building" class="form-control"/>
+          </div>
+        </div>
+      </div>
+    </form>
+
   </div>
 
 </template>

@@ -149,7 +149,6 @@ export default {
       this.$refs.createModal.confirmSubmit();
     },
     confirmCancelUpdate() {
-      console.error("confirmCancelUpdate")
       this.$confirm(
           {
             message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
