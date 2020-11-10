@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-confirm-dialog></vue-confirm-dialog>
+    <vue-confirm-dialog class="my-class"></vue-confirm-dialog>
     <nav class="navbar navbar-expand-sm bg-info navbar-dark fixed-top">
       <ul class="navbar-nav">
         <li class="nav-item active">
@@ -91,7 +91,7 @@ export default {
                 await this.$store.dispatch("notify", {
                   style: 'warning',
                   title: 'Внимание',
-                  message: 'Сохранение отменено пользователем.'
+                  message: 'Операция отменена пользователем.'
                 })
               }
               await this.$router.push({name: "Home"})

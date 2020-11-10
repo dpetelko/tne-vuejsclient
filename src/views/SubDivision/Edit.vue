@@ -161,19 +161,6 @@
                 </div>
               </div>
 
-              <!--          <div class="row">-->
-              <!--            <div class="col">-->
-              <!--              <div class="form-group row">-->
-              <!--                <a class="btn btn-danger mr-2" @click.prevent="confirmCancel()">Отмена</a>-->
-              <!--                <input-->
-              <!--                    type="submit"-->
-              <!--                    value="Сохранить"-->
-              <!--                    id="confirmSaveButton"-->
-              <!--                    @click.prevent="confirmSubmit()"-->
-              <!--                    class="btn btn-warning"/>-->
-              <!--              </div>-->
-              <!--            </div>-->
-              <!--          </div>-->
             </form>
           </div>
         </div>
@@ -195,7 +182,6 @@ export default {
   },
   methods: {
     confirmSubmit() {
-      console.error("confirmSubmit in child")
       if (this.$v.$invalid) {
         this.$v.$touch()
         return

@@ -138,7 +138,7 @@ export default {
                 this.$store.dispatch("notify", {
                   style: 'warning',
                   title: 'Внимание',
-                  message: 'Сохранение отменено пользователем.'
+                  message: 'Создание отменено пользователем.'
                 })
               }
             }
@@ -163,7 +163,7 @@ export default {
                 this.$store.dispatch("notify", {
                   style: 'warning',
                   title: 'Внимание',
-                  message: 'Сохранение отменено пользователем.'
+                  message: 'Редактирование отменено пользователем.'
                 })
               }
             }

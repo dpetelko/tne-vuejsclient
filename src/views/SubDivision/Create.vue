@@ -158,21 +158,8 @@
               </div>
             </div>
           </div>
-
-<!--          <div class="row">-->
-<!--            <div class="col">-->
-<!--              <div class="form-group row">-->
-<!--                <a class="btn btn-danger mr-2" @click.prevent="confirmCancel()">Отмена</a>-->
-<!--                <input-->
-<!--                    type="submit"-->
-<!--                    value="Сохранить"-->
-<!--                    id="confirmSaveButton"-->
-<!--                    @click.prevent="confirmSubmit()"-->
-<!--                    class="btn btn-warning"/>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </form>
+
       </div>
     </div>
   </div>
@@ -222,6 +209,7 @@ export default {
     this.leadDivisionList = this.getChildrenList
   },
   methods: {
+
     confirmSubmit() {
       console.error("confirmSubmit in child")
       if (this.$v.$invalid) {
@@ -243,26 +231,7 @@ export default {
           }
       )
     },
-    confirmCancel() {
-      this.$confirm(
-          {
-            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
-            button: {
-              no: 'Отмена',
-              yes: 'Да'
-            },
-            callback: confirm => {
-              if (confirm) {
-                this.$emit('close', {
-                  style: 'warning',
-                  title: 'Внимание',
-                  message: 'Сохранение отменено пользователем.'
-                })
-              }
-            }
-          }
-      )
-    },
+
     async submitForm() {
       await this.$store.dispatch("createEntry", ['http://127.0.0.1:8050/api/v1/SubDivisions/', this.subDivision])
 
