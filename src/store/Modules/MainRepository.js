@@ -4,11 +4,12 @@ export default {
         childrenList: [],
         entry: {},
         responseResult: 0,
-        loader: false
+        loader: false,
+        restApiUrl: 'https://tne20201114103841.azurewebsites.net'
     },
     actions: {
-        async getEntryList(ctx, url) {
-            await fetch(url, {
+        async getEntryList(ctx, endPoint) {
+            await fetch(this.getters.getRestApiUrl + endPoint, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -21,8 +22,8 @@ export default {
                 })
         },
 
-        async getChildrenEntryList(ctx, url) {
-            await fetch(url, {
+        async getChildrenEntryList(ctx, endPoint) {
+            await fetch(this.getters.getRestApiUrl + endPoint, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -35,8 +36,8 @@ export default {
                 })
         },
 
-        async getEntryById(ctx, url) {
-            await fetch(url, {
+        async getEntryById(ctx, endPoint) {
+            await fetch(this.getters.getRestApiUrl + endPoint, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -49,8 +50,8 @@ export default {
                 })
         },
 
-        async updateEntry(ctx, [url, entry]) {
-            await fetch(url, {
+        async updateEntry(ctx, [endPoint, entry]) {
+            await fetch(this.getters.getRestApiUrl + endPoint, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,8 +65,8 @@ export default {
             })
         },
 
-        async createEntry(ctx, [url, entry]) {
-            await fetch(url, {
+        async createEntry(ctx, [endPoint, entry]) {
+            await fetch(this.getters.getRestApiUrl + endPoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +92,7 @@ export default {
         },
         async dropDb(ctx) {
             this._vm.$loading.show({delay: 0})
-            await fetch('http://127.0.0.1:8050/api/v1/Utils/', {
+            await fetch(this.getters.getRestApiUrl + '/api/v1/Utils/', {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -130,8 +131,11 @@ export default {
         getEntry(state) {
             return state.entry
         },
-        getResult(state) {
+        getResponseResult(state) {
             return state.responseResult
         },
+        getRestApiUrl(state) {
+            return state.restApiUrl
+        }
     }
 }

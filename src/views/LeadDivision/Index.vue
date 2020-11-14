@@ -60,7 +60,7 @@ export default {
     if (this.successMsg != null) {
       await this.notify({style: 'info', title: 'Информация', message: this.successMsg});
     }
-    await this.getEntryList('http://127.0.0.1:8050/api/v1/LeadDivisions');
+    await this.getEntryList('/api/v1/LeadDivisions');
   }
 }
 

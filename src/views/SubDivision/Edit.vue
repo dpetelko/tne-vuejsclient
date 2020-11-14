@@ -200,7 +200,7 @@ export default {
       )
     },
     async submitForm() {
-      await this.$store.dispatch("updateEntry", ['http://127.0.0.1:8050/api/v1/SubDivisions/', this.subDivision])
+      await this.$store.dispatch("updateEntry", ['/api/v1/SubDivisions/', this.subDivision])
 
 
       switch (this.getResponseResult) {
@@ -254,9 +254,9 @@ export default {
     id: String
   },
   async mounted() {
-    await this.$store.dispatch("getChildrenEntryList", 'http://127.0.0.1:8050/api/v1/LeadDivisions')
+    await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
     this.leadDivisionList = this.getChildrenList
-    await this.$store.dispatch("getEntryById", 'http://127.0.0.1:8050/api/v1/SubDivisions/' + this.id);
+    await this.$store.dispatch("getEntryById", '/api/v1/SubDivisions/' + this.id);
     this.subDivision = this.getEntry
     this.$refs['update'].show()
   },

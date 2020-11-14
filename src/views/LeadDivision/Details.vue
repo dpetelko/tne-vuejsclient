@@ -129,8 +129,8 @@ export default {
     id: String
   },
   async mounted() {
-    await this.getChildrenEntryList('http://127.0.0.1:8050/api/v1/SubDivisions/byLeadDivision/' + this.id);
-    await this.getEntryById('http://127.0.0.1:8050/api/v1/LeadDivision/' + this.id);
+    await this.getChildrenEntryList('/api/v1/SubDivisions/byLeadDivision/' + this.id);
+    await this.getEntryById('/api/v1/LeadDivision/' + this.id);
   }
 }
 </script>

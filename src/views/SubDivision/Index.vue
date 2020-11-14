@@ -113,7 +113,7 @@ export default {
       this.$refs['update'].hide();
       this.$store.dispatch("notify", notifyParams)
       this.$refs['details'].hide()
-      this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
+      this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
     },
     showCreate() {
       this.$refs['create'].show()
@@ -121,7 +121,7 @@ export default {
     closeCreate(notifyParams) {
       this.$refs['create'].hide();
       this.$store.dispatch("notify", notifyParams)
-      this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
+      this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
     },
     confirmCancelCreate() {
       console.error("confirmCancel")
@@ -177,7 +177,7 @@ export default {
     if (this.successMsg != null) {
       await this.$store.dispatch("notify", {style: 'info', title: 'Информация', message: this.successMsg});
     }
-    await this.$store.dispatch("getEntryList", 'http://127.0.0.1:8050/api/v1/SubDivisions')
+    await this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
   },
   components: {
     SubDivisionDetails, SubDivisionCreate, SubDivisionEdit

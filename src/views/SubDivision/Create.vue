@@ -201,7 +201,7 @@ export default {
   },
   computed: mapGetters(["getResponseResult", "getChildrenList"]),
   async mounted() {
-    await this.$store.dispatch("getChildrenEntryList", 'http://127.0.0.1:8050/api/v1/LeadDivisions')
+    await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
     this.leadDivisionList = this.getChildrenList
   },
   methods: {
@@ -229,7 +229,7 @@ export default {
     },
 
     async submitForm() {
-      await this.$store.dispatch("createEntry", ['http://127.0.0.1:8050/api/v1/SubDivisions/', this.subDivision])
+      await this.$store.dispatch("createEntry", ['/api/v1/SubDivisions/', this.subDivision])
 
 
       switch (this.getResponseResult) {

@@ -186,7 +186,7 @@ export default {
       street: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
-  computed: mapGetters(["getResult"]),
+  computed: mapGetters(["getResponseResult"]),
   methods: {
     confirmSubmit() {
       if (this.$v.$invalid) {
@@ -228,9 +228,9 @@ export default {
       )
     },
     async submitForm() {
-      await this.$store.dispatch("createEntry",['http://127.0.0.1:8050/api/v1/LeadDivisions/', this.leadDivision])
+      await this.$store.dispatch("createEntry",['/api/v1/LeadDivisions/', this.leadDivision])
 
-      switch (this.getResult) {
+      switch (this.getResponseResult) {
         case 201:
           await this.$router.push({name: "LeadDivisionsIndex", params: {successMsg: 'Запись успешно создана.'}})
           break
@@ -255,7 +255,7 @@ export default {
           await this.$store.dispatch("notify", {
             style: 'danger',
             title: 'Внимание! Не удается сохранить запись.',
-            message: this.getResult
+            message: this.getResponseResult
           })
           break
       }
