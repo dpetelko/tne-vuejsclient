@@ -130,7 +130,7 @@ export default {
   },
   async mounted() {
     await this.getChildrenEntryList('/api/v1/SubDivisions/byLeadDivision/' + this.id);
-    await this.getEntryById('/api/v1/LeadDivision/' + this.id);
+    await this.getEntryById('/api/v1/LeadDivisions/' + this.id);
   }
 }
 </script>
