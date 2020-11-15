@@ -1,36 +1,53 @@
 <template>
   <div>
-
     <table class="table" id="subDivisionTable">
       <tr>
         <td>Наименование</td>
-        <td><strong>{{ getEntry.name }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.name }}</strong>
+        </td>
         <td>Головная организация</td>
-        <td><strong>{{ getEntry.leadDivisionName }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.leadDivisionName }}</strong>
+        </td>
       </tr>
       <tr>
         <td>Страна</td>
-        <td><strong>{{ getEntry.country }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.country }}</strong>
+        </td>
         <td>Индекс</td>
-        <td><strong>{{ getEntry.postCode }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.postCode }}</strong>
+        </td>
       </tr>
       <tr>
         <td>Регион</td>
-        <td><strong>{{ getEntry.region }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.region }}</strong>
+        </td>
         <td>Населенный пункт</td>
-        <td><strong>{{ getEntry.city }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.city }}</strong>
+        </td>
       </tr>
       <tr>
         <td>Улица</td>
-        <td><strong>{{ getEntry.street }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.street }}</strong>
+        </td>
         <td>Строение</td>
-        <td><strong>{{ getEntry.building }}</strong></td>
+        <td>
+          <strong>{{ this.subDivision.building }}</strong>
+        </td>
       </tr>
     </table>
 
-    <div v-if="getChildrenList.length != 0">
+    <div v-if="this.providersList.length != 0">
       <table class="table">
-        <caption class="text-dark"><h5>Связанные объекты потребления</h5></caption>
+        <caption class="text-dark">
+          <h5>Связанные объекты потребления</h5>
+        </caption>
 
         <tr>
           <td><strong>Наименование</strong></td>
@@ -42,7 +59,7 @@
           <td><strong>Строение</strong></td>
           <td></td>
         </tr>
-        <tr v-for="item in getChildrenList" v-bind:key=item.id>
+        <tr v-for="item in this.providersList" v-bind:key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.postCode }}</td>
           <td>{{ item.country }}</td>
@@ -53,7 +70,11 @@
           <td>
             <div class="btn-group" role="group">
               <b-button href="" variant="outline-success">
-                <b-icon icon="info-circle" scale="1" aria-hidden="true"></b-icon>
+                <b-icon
+                  icon="info-circle"
+                  scale="1"
+                  aria-hidden="true"
+                ></b-icon>
               </b-button>
             </div>
           </td>
@@ -61,26 +82,63 @@
       </table>
     </div>
     <div v-else>
-      <p class="text-dark"><strong>Связанные объекты потребления отсутствуют</strong></p>
+      <p class="text-dark">
+        <strong>Связанные объекты потребления отсутствуют</strong>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+//import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Details",
-  computed: mapGetters(["getEntry", "getChildrenList"]),
-  methods: mapActions(["getEntryById", "getChildrenEntryList"]),
+  // data() {
+  //   return {
+  //     subDivision: {},
+  //     providersList: [],
+  //   };
+  // },
+  // computed: mapGetters(["getEntry", "getChildrenList"]),
+  // methods: mapActions(["getEntryById", "getChildrenEntryList"]),
   props: {
-    id: String
+    id: String,
+    subDivision: {},
+    providersList: [],
   },
-  async mounted() {
-    await this.getChildrenEntryList('/api/v1/Providers/bySubDivision/' + this.id);
-    await this.getEntryById('/api/v1/SubDivisions/' + this.id);
-  }
-}
+  // async created() {
+  //   const response = await fetch(
+  //     "https://tne20201114103841.azurewebsites.net" +
+  //       "/api/v1/SubDivisions/" +
+  //       this.id,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   this.subDivision = await response.json();
+  //   console.log("subDivision", this.subDivision);
+  //   // await this.getEntryById("/api/v1/SubDivisions/" + this.id);
+  //   // await this.getChildrenEntryList(
+  //   //   "/api/v1/Providers/bySubDivision/" + this.id
+  //   // );
+
+  //   const response2 = await fetch(
+  //     "https://tne20201114103841.azurewebsites.net" +
+  //       "/api/v1/Providers/bySubDivision/" +
+  //       this.id,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   this.providersList = await response2.json();
+  //   console.log("providersList", this.providersList);
+  // },
+};
 </script>
 
 <style scoped>

@@ -172,12 +172,12 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "Edit",
-  data() {
-    return {
-      leadDivisionList: [],
-      subDivision: {}
-    }
-  },
+  // data() {
+  //   return {
+  //     leadDivisionList: [],
+  //     subDivision: {}
+  //   }
+  // },
   methods: {
     confirmSubmit() {
       if (this.$v.$invalid) {
@@ -251,14 +251,15 @@ export default {
   },
   computed: mapGetters(["getResponseResult", "getChildrenList", "getEntry"]),
   props: {
-    id: String
+    id: String,
+    leadDivisionList: [],
+      subDivision: {}
   },
   async mounted() {
-    await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
-    this.leadDivisionList = this.getChildrenList
-    await this.$store.dispatch("getEntryById", '/api/v1/SubDivisions/' + this.id);
-    this.subDivision = this.getEntry
-    this.$refs['update'].show()
+    // await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
+    // this.leadDivisionList = this.getChildrenList
+    // await this.$store.dispatch("getEntryById", '/api/v1/SubDivisions/' + this.id);
+    // this.subDivision = this.getEntry
   },
 }
 </script>

@@ -1,10 +1,11 @@
 <template>
-
   <div>
     <div class="container-fluid" id="main">
       <h3 class="text-center">Дочерние организации</h3>
-      <br/>
-      <a @click="showCreate()" class="btn btn-secondary">Добавить новую организацию</a>
+      <br />
+      <a @click="showCreate()" class="btn btn-secondary"
+        >Добавить новую организацию</a
+      >
       <p></p>
       <table class="table table-stripped table-hover">
         <tr>
@@ -29,164 +30,199 @@
           <td>{{ item.building }}</td>
           <td>
             <div class="btn-group" role="group">
-              <a @click="showDetails(item.id)" class="btn btn-outline-success btn-sm">Подробности</a>
-              <a @click="showUpdate(item.id)" class="btn btn-warning btn-sm">Редактировать</a>
+              <a
+                @click="showDetails(item.id)"
+                class="btn btn-outline-success btn-sm"
+                >Подробности</a
+              >
+              <a @click="showUpdate(item.id)" class="btn btn-warning btn-sm"
+                >Редактировать</a
+              >
             </div>
           </td>
         </tr>
       </table>
 
       <b-modal
-          ref="details"
-          size="xl"
-          centered
-          body-bg-variant="light"
-          title="Дочернее подразделение - подробности">
-        <template #modal-footer="{  }">
-          <a @click="showUpdate(itemId)" class="btn btn-warning">Редактировать</a>
+        ref="details"
+        size="xl"
+        centered
+        body-bg-variant="light"
+        title="Дочернее подразделение - подробности"
+      >
+        <template #modal-footer="{}">
+          <a @click="showUpdate(itemId)" class="btn btn-warning"
+            >Редактировать</a
+          >
         </template>
-        <SubDivisionDetails v-bind:id="itemId"/>
+        <SubDivisionDetails
+          v-bind:subDivision="getEntry"
+          v-bind:providersList="getChildrenList"
+        />
       </b-modal>
 
       <b-modal
-          ref="create"
-          size="xl"
-          centered
-          body-bg-variant="light"
-          no-close-on-backdrop
-          hide-header-close
-          title="Дочернее подразделение - создание">
-        <template #modal-footer="{  }">
-          <b-button variant="danger" v-on:click="confirmCancelCreate()">Отмена</b-button>
-          <b-button variant="warning" v-on:click="confirmSubmitCreate()">Сохранить</b-button>
+        ref="create"
+        size="xl"
+        centered
+        body-bg-variant="light"
+        no-close-on-backdrop
+        hide-header-close
+        title="Дочернее подразделение - создание"
+      >
+        <template #modal-footer="{}">
+          <b-button variant="danger" v-on:click="confirmCancelCreate()"
+            >Отмена</b-button
+          >
+          <b-button variant="warning" v-on:click="confirmSubmitCreate()"
+            >Сохранить</b-button
+          >
         </template>
-        <SubDivisionCreate v-on:close="closeCreate($event)" ref="createModal"/>
+        <SubDivisionCreate 
+        v-bind:leadDivisionList="getChildrenList"
+        v-on:close="closeCreate($event)" 
+        ref="createModal" />
       </b-modal>
 
       <b-modal
-          ref="update"
-          size="xl"
-          centered
-          body-bg-variant="light"
-          no-close-on-backdrop
-          hide-header-close
-          title="Дочернее подразделение - редактирование">
-        <template #modal-footer="{  }">
-          <b-button variant="danger" v-on:click="confirmCancelUpdate()">Отмена</b-button>
-          <b-button variant="warning" v-on:click="confirmSubmitUpdate()">Сохранить</b-button>
+        ref="update"
+        size="xl"
+        centered
+        body-bg-variant="light"
+        no-close-on-backdrop
+        hide-header-close
+        title="Дочернее подразделение - редактирование"
+      >
+        <template #modal-footer="{}">
+          <b-button variant="danger" v-on:click="confirmCancelUpdate()"
+            >Отмена</b-button
+          >
+          <b-button variant="warning" v-on:click="confirmSubmitUpdate()"
+            >Сохранить</b-button
+          >
         </template>
-        <SubDivisionEdit v-bind:id="itemId" v-on:close="closeUpdate($event)" ref="updateModal"/>
+        <SubDivisionEdit
+          v-bind:subDivision="getEntry"
+          v-bind:leadDivisionList="getChildrenList"
+          v-on:close="closeUpdate($event)"
+          ref="updateModal"
+        />
       </b-modal>
-
     </div>
   </div>
-
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import SubDivisionDetails from '@/views/SubDivision/Details.vue'
-import SubDivisionCreate from '@/views/SubDivision/Create.vue'
-import SubDivisionEdit from '@/views/SubDivision/Edit.vue'
+import { mapGetters } from "vuex";
+import SubDivisionDetails from "@/views/SubDivision/Details.vue";
+import SubDivisionCreate from "@/views/SubDivision/Create.vue";
+import SubDivisionEdit from "@/views/SubDivision/Edit.vue";
 
 export default {
-  name: 'SubDivisionsIndex',
+  name: "SubDivisionsIndex",
   props: {
-    successMsg: String
+    successMsg: String,
   },
   data() {
     return {
-      itemId: String
-    }
+      itemId: String,
+      subDivision: {},
+      providersList: [{}],
+    };
   },
-  computed: mapGetters(["getList"]),
+  computed: mapGetters(["getList", "getEntry", "getChildrenList"]),
   methods: {
-    showDetails(id) {
-      this.itemId = id
-      this.$refs['details'].show()
+    async showDetails(id) {
+      this.itemId = id;
+      await this.$store.dispatch("getEntryById", "/api/v1/SubDivisions/" + id);
+      await this.$store.dispatch("getChildrenEntryList", "/api/v1/Providers/bySubDivision/" + id);
+      this.$refs["details"].show();
     },
-    showUpdate(id) {
-      this.itemId = id
-      this.$refs['update'].show()
+    async showUpdate(id) {
+      await this.$store.dispatch("getEntryById", '/api/v1/SubDivisions/' + id);
+      await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
+      this.$refs["update"].show();
     },
     closeUpdate(notifyParams) {
-      this.$refs['update'].hide();
-      this.$store.dispatch("notify", notifyParams)
-      this.$refs['details'].hide()
-      this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
+      this.$refs["update"].hide();
+      this.$store.dispatch("notify", notifyParams);
+      this.$refs["details"].hide();
+      this.$store.dispatch("getEntryList", "/api/v1/SubDivisions");
     },
-    showCreate() {
-      this.$refs['create'].show()
+    async showCreate() {
+      await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
+      this.$refs["create"].show();
     },
     closeCreate(notifyParams) {
-      this.$refs['create'].hide();
-      this.$store.dispatch("notify", notifyParams)
-      this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
+      this.$refs["create"].hide();
+      this.$store.dispatch("notify", notifyParams);
+      this.$store.dispatch("getEntryList", "/api/v1/SubDivisions");
     },
     confirmCancelCreate() {
-      console.error("confirmCancel")
-      this.$confirm(
-          {
-            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
-            button: {
-              no: 'Отмена',
-              yes: 'Да'
-            },
-            callback: confirm => {
-              if (confirm) {
-                this.$refs['create'].hide();
-                this.$store.dispatch("notify", {
-                  style: 'warning',
-                  title: 'Внимание',
-                  message: 'Создание отменено пользователем.'
-                })
-              }
-            }
+      console.error("confirmCancel");
+      this.$confirm({
+        message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
+        button: {
+          no: "Отмена",
+          yes: "Да",
+        },
+        callback: (confirm) => {
+          if (confirm) {
+            this.$refs["create"].hide();
+            this.$store.dispatch("notify", {
+              style: "warning",
+              title: "Внимание",
+              message: "Создание отменено пользователем.",
+            });
           }
-      )
+        },
+      });
     },
     confirmSubmitCreate() {
       this.$refs.createModal.confirmSubmit();
     },
     confirmCancelUpdate() {
-      this.$confirm(
-          {
-            message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
-            button: {
-              no: 'Отмена',
-              yes: 'Да'
-            },
-            callback: confirm => {
-              if (confirm) {
-                this.$refs['update'].hide();
-                this.$store.dispatch("notify", {
-                  style: 'warning',
-                  title: 'Внимание',
-                  message: 'Редактирование отменено пользователем.'
-                })
-              }
-            }
+      this.$confirm({
+        message: `Изменения не будут сохранены. Уверены, что хотите покинуть страницу?`,
+        button: {
+          no: "Отмена",
+          yes: "Да",
+        },
+        callback: (confirm) => {
+          if (confirm) {
+            this.$refs["update"].hide();
+            this.$store.dispatch("notify", {
+              style: "warning",
+              title: "Внимание",
+              message: "Редактирование отменено пользователем.",
+            });
           }
-      )
+        },
+      });
     },
     confirmSubmitUpdate() {
       this.$refs.updateModal.confirmSubmit();
-    }
+    },
   },
   async mounted() {
     if (this.successMsg != null) {
-      await this.$store.dispatch("notify", {style: 'info', title: 'Информация', message: this.successMsg});
+      await this.$store.dispatch("notify", {
+        style: "info",
+        title: "Информация",
+        message: this.successMsg,
+      });
     }
-    await this.$store.dispatch("getEntryList", '/api/v1/SubDivisions')
+    await this.$store.dispatch("getEntryList", "/api/v1/SubDivisions");
   },
   components: {
-    SubDivisionDetails, SubDivisionCreate, SubDivisionEdit
-  }
-}
-
+    SubDivisionDetails,
+    SubDivisionCreate,
+    SubDivisionEdit,
+  },
+};
 </script>
 <style scoped>
 #main {
-  margin-top: 60px
+  margin-top: 60px;
 }
 </style>

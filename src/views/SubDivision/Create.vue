@@ -168,9 +168,11 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: "Create",
+  props: {
+    leadDivisionList: []
+  },
   data() {
     return {
-      leadDivisionList: [],
       subDivision: {
         id: '00000000-0000-0000-0000-000000000000',
         name: '',
@@ -199,11 +201,7 @@ export default {
       street: {minLength: minLength(3), maxLength: maxLength(30)}
     }
   },
-  computed: mapGetters(["getResponseResult", "getChildrenList"]),
-  async mounted() {
-    await this.$store.dispatch("getChildrenEntryList", '/api/v1/LeadDivisions')
-    this.leadDivisionList = this.getChildrenList
-  },
+  computed: mapGetters(["getResponseResult"]),
   methods: {
 
     confirmSubmit() {
