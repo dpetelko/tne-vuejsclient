@@ -9,6 +9,7 @@ export default {
     },
     actions: {
         async getEntryList(ctx, endPoint) {
+            this._vm.$loading.show({delay: 0})
             await fetch(this.getters.getRestApiUrl + endPoint, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -19,6 +20,8 @@ export default {
                 }).catch(function (error) {
                     console.error("MainRepository Vuex module error = ", error)
                     ctx.commit('updateResponseResult', "Нет связи с сервером. Проверьте соединение.")
+                }).finally(() => {
+                    this._vm.$loading.hide()
                 })
         },
 
